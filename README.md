@@ -7,7 +7,7 @@ This recipe [raspi_4_bullseye.yaml](https://github.com/benpops89/rpi-image-gener
 
 The reason for the changes are to reduce manual steps when provisioning nodes for a Raspberry Pi cluster
 
-See below the original documentation on how to generated images
+See below the original documentation on how to generate images
 
 ---
 
