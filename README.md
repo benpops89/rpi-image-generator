@@ -1,3 +1,16 @@
+# Custom Debian Raspberry Pi image
+
+This recipe [raspi_4_bullseye.yaml](https://github.com/benpops89/rpi-image-generator/blob/main/raspi_4_bullseye.yaml) contains the following edits from the master recipe:
+* eth0 interface not included - added later during configuration
+* python3 package installed on base image - required for Ansible
+* `sysconf.txt` supports defining static IP and gateway
+
+The reason for the changes are to reduce manual steps when provisioning nodes for a Raspberry Pi cluster
+
+See below the original documentation on how to generated images
+
+---
+
 # Raspberry Pi image specs
 
 This repository contains the files with which the images referenced at
