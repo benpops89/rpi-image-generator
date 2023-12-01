@@ -57,6 +57,34 @@ if (my $name = delete($conf->{hostname})) {
     system('hostname', '--file', '/etc/hostname');
 }
 
+if (my ($ip, $gw) = split(",", delete($conf->{ip_addr}))) {
+    my $fh;
+    logger('debug', "Setting static IP for eth0");
+    unless ($fh = IO::File->new('/etc/network/interfaces.d/eth0', 'w')) {
+	my $err = $!;
+	logger('error', "Could not write static IP: $err");
+	die $err;
+    }
+    $fh->print("auto eth0
+iface eth0 inet static
+\taddress $ip
+\tnetmask 255.255.255.0
+\tgateway $gw
+\tdns-nameservers $gw
+");
+    $fh->close;
+
+    logger('debug', "Setting nameserver to gateway");
+    unless ($fh = IO::File->new('/etc/resolv.conf', 'w')) {
+        my $err = $!;
+        logger('debug', "Could not write nameserver: $err");
+        die $err;
+    }
+    $fh->print("nameserver $gw");
+    $fh->close;
+    system('ifup', 'eth0');
+}
+
 rewrite_conf_file($filename, $conf);
 
 exit 0;
@@ -138,6 +166,10 @@ q(# This file will be automatically evaluated and installed at next boot
 
 # hostname - Set the system hostname.
 #hostname=rpi
+
+# ip_addr - Set the desired IP address and gateway, which are
+# separated by a comma with no space either side
+#ip_addr=192.168.1.100,192.168.1.1
 ));
 
     if (scalar keys %$conf) {
@@ -153,5 +185,3 @@ q(
     }
     $fh->close;
 }
-
-

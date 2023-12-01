@@ -30,6 +30,10 @@
 # hostname - Set the system hostname.
 #hostname=rpi
 
+# ip_addr - Set the desired IP address and gateway for eth0
+# ip and gateway are separated by a comma with no space
+#ip_addr=192.168.1.100,192.168.1.1
+
 # We found the following unhandled keys - That means, the
 # configuration script does not know how to handle them. Please
 # double-check them!
